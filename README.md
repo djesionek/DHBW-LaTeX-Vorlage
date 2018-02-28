@@ -31,3 +31,5 @@ Temporäre Dateien der verwendeten LaTeX Engine werden anschließend gelöscht.
 Die Standardausgabe wird auf die mit MAKE_LOG spezifizierte Datei umgeleitet (Standardmäßig: make.logs)
 *  `make grimey` baut das Projekt wie default, jedoch ohne die temporären Ausgabedateien im Anschluss zu löschen.
 *  `make verbose` baut das Projekt wie grimey, leitet jedoch die Standardausgabe nicht um.
+
+make bedient sich zum bauen bei folgendem container: [Ubuntu Texlive container](https://github.com/djesionek/ubuntu-texlive)
