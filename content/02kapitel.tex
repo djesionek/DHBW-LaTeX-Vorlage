@@ -1,0 +1,59 @@
+%!TEX root = ../ausarbeitung.tex
+
+\chapter{Kapitel 2}
+\blindtext
+
+
+\section{Abschnitt 1}
+\begin{figure}		
+	\begin{center}
+		\begin{tikzpicture}
+			\pie[text=legend, radius=3.2]{25.3/{A}, 5.1/{B}, 4.7/{B}, 12.9/{C}, 5.4/{D}, 3.2/{E}, 3.0/{F}, 33.6/{F},2.9/{G},4/{H}}
+		\end{tikzpicture}
+	\end{center}
+	\caption{Zitierte grafik, 2015\cite{Test.2015}}
+\end{figure}
+
+
+\begin{description}
+	\item [Erklärung 1] \blindtext
+	\item [Erklärung 2] \blindtext
+\end{description}
+\section{Abschnitt 2}
+\begin{figure}		
+	\begin{center}
+		\begin{tikzpicture}
+			\draw [->] (0,0) -- (1,0);
+			\draw [black] (1,-0.75) rectangle (3,0.75); % W=2, H=1.5
+
+			\draw [->] (3,0) -- (4,0);
+			\draw [black] (4,-0.75) rectangle (6,0.75);
+
+			\draw [->] (6,0) -- (7,0);
+			\draw [black] (7,-0.75) rectangle (9,0.75);
+
+			\draw [->] (9,0) -- (10,0);
+			\draw [black] (10,-0.75) rectangle (12,0.75);
+
+			\draw [->] (11, -1.5) -- (11, -0.75);
+			\draw [black, rounded corners] (10,-2.5) rectangle (12, -1.5);
+
+			\draw [->] (12,0) -- (13,0);
+
+			% Line Labels
+			\node [above] at (-0.25,0) {A};
+			\node [above] at (3.5,1) {B};
+			\node [above, align=center] at (6.5,1) {C};
+			\node [above, align=center] at (9.5,1) {D};
+			\node [above] at (13,0) {E};
+
+			% Rectangle Labels
+			\node [above, align=center] at (2,-0.75) {A};
+			\node [above, align=center] at (5,-0.75) {B};
+			\node [above, align=center] at (8,-0.75) {C};
+			\node [above, align=center] at (11,-0.75) {D};
+			\node [above, align=center] at (11,-2.25) {E};
+		\end{tikzpicture}
+	\end{center}
+	\caption{Random Ablauf}
+\end{figure}
