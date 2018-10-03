@@ -20,6 +20,13 @@ RM=$(RM_CMD) $(RM_FLAGS)
 
 MAKE_LOG=make.logs
 
+# Files to compile
+MAIN_FILE=ausarbeitung
+MAIN_FILE_SUFFIX=tex
+
+BIB_FILE=bibliographie
+BIB_FILE_SUFFIX=bib
+
 default: docker
 	@$(PRINTF) "[docker]" "Starting container"
 	@docker rm $(NAME) > /dev/null
@@ -39,28 +46,36 @@ init: docker
 	@$(PRINTF) "[docker]" "Creating container"
 	@docker run -it --name $(NAME) -e TARGET=_default -v $(shell pwd):/build djesionek/ubuntu-texlive
 
+enter: docker
+	@$(PRINTF) "[docker]" "Entering container"
+	@docker rm $(NAME) > /dev/null
+	@docker run -it --name $(NAME) -e TARGET=_enter -v $(shell pwd):/build djesionek/ubuntu-texlive
+
+_enter:
+	@bash
+
 _default: _grimey degrime
 
-_grimey: bibliographie.bib ausarbeitung.tex deckblatt.tex erklaerung.tex glossaries.tex content/*.tex 
+_grimey: $(BIB_FILE).$(BIB_FILE_SUFFIX) $(MAIN_FILE).$(MAIN_FILE_SUFFIX) #deckblatt.tex erklaerung.tex glossaries.tex content/*.tex 
 	@$(PRINTF) "[make]" "Building quietly. Logs are written to $(MAKE_LOG)"
 	@$(PRINTF) "[$(LATEX_ENGINE)]" "First run"
-	@$(LATEX_ENGINE) -interaction=nonstopmode ausarbeitung > $(MAKE_LOG)
+	@$(LATEX_ENGINE) -interaction=nonstopmode $(MAIN_FILE) > $(MAKE_LOG)
 	@$(PRINTF) "[$(BIBLIOGRAPHY_GEN)]" "Creating bibliography"
-	@$(BIBLIOGRAPHY_GEN) ausarbeitung >> $(MAKE_LOG)
+	@$(BIBLIOGRAPHY_GEN) $(MAIN_FILE) >> $(MAKE_LOG)
 	@$(PRINTF) "[$(GLOSSARY_GEN)]" "Creating glossaries"
-	@$(GLOSSARY_GEN) ausarbeitung >> $(MAKE_LOG)
+	@$(GLOSSARY_GEN) $(MAIN_FILE) >> $(MAKE_LOG)
 	@$(PRINTF) "[$(LATEX_ENGINE)]" "Second run"
-	@$(LATEX_ENGINE) -interaction=nonstopmode ausarbeitung >> $(MAKE_LOG)
+	@$(LATEX_ENGINE) -interaction=nonstopmode $(MAIN_FILE) >> $(MAKE_LOG)
 	@$(PRINTF) "[$(LATEX_ENGINE)]" "Third run"
-	@$(LATEX_ENGINE) -interaction=nonstopmode ausarbeitung >> $(MAKE_LOG)
+	@$(LATEX_ENGINE) -interaction=nonstopmode $(MAIN_FILE) >> $(MAKE_LOG)
 
-_verbose: bibliographie.bib ausarbeitung.tex
+_verbose: $(BIB_FILE).$(BIB_FILE_SUFFIX) $(MAIN_FILE).$(MAIN_FILE_SUFFIX)
 	@$(PRINTF) "[make]" "Building verbose"
-	$(LATEX_ENGINE) ausarbeitung
-	$(BIBLIOGRAPHY_GEN) ausarbeitung
-	$(GLOSSARY_GEN) ausarbeitung
-	$(LATEX_ENGINE) ausarbeitung
-	$(LATEX_ENGINE) ausarbeitung
+	$(LATEX_ENGINE) $(MAIN_FILE)
+	$(BIBLIOGRAPHY_GEN) $(MAIN_FILE)
+	$(GLOSSARY_GEN) $(MAIN_FILE)
+	$(LATEX_ENGINE) $(MAIN_FILE)
+	$(LATEX_ENGINE) $(MAIN_FILE)
 
 degrime:
 	@$(PRINTF) "[$(RM_CMD)]" "Deleting temporary files"
