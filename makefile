@@ -27,29 +27,33 @@ MAIN_FILE_SUFFIX=tex
 BIB_FILE=bibliographie
 BIB_FILE_SUFFIX=bib
 
+# Container image to use for build
+#CONTAINER_IMAGE=djesionek/ubuntu-texlive
+CONTAINER_IMAGE=djesionek/arch-texlive
+
 default: docker
 	@$(PRINTF) "[docker]" "Starting container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_default -v $(shell pwd):/build djesionek/ubuntu-texlive
+	@docker run -it --name $(NAME) -e TARGET=_default -v $(shell pwd):/build $(CONTAINER_IMAGE)
 
 grimey: docker
 	@$(PRINTF) "[docker]" "Starting container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_grimey -v $(shell pwd):/build djesionek/ubuntu-texlive
+	@docker run -it --name $(NAME) -e TARGET=_grimey -v $(shell pwd):/build $(CONTAINER_IMAGE)
 
 verbose: docker
 	@$(PRINTF) "[docker]" "Starting container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_verbose -v $(shell pwd):/build djesionek/ubuntu-texlive
+	@docker run -it --name $(NAME) -e TARGET=_verbose -v $(shell pwd):/build $(CONTAINER_IMAGE)
 
 init: docker
 	@$(PRINTF) "[docker]" "Creating container"
-	@docker run -it --name $(NAME) -e TARGET=_default -v $(shell pwd):/build djesionek/ubuntu-texlive
+	@docker run -it --name $(NAME) -e TARGET=_default -v $(shell pwd):/build $(CONTAINER_IMAGE)
 
 enter: docker
 	@$(PRINTF) "[docker]" "Entering container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_enter -v $(shell pwd):/build djesionek/ubuntu-texlive
+	@docker run -it --name $(NAME) -e TARGET=_enter -v $(shell pwd):/build $(CONTAINER_IMAGE)
 
 _enter:
 	@bash
