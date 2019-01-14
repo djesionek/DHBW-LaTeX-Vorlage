@@ -1,6 +1,13 @@
 # Name
 NAME=fs$(shell pwd | tr / _)
 
+# For docker runninge inside a WSL (Windows Subsystem for Linux) use the Windows Path eg:
+# Also you have to use double Backslash, otherwise you would simply escape char after the backslash
+#DATA_PATH = "D:\\projects\\DHBW-LaTeX-Vorlage"
+# For docker on Linux simply use $(shell pwd)
+DATA_PATH = $(shell pwd)
+
+
 # printf
 PRINTF_CMD=$(shell which printf)
 PRINTF_FORMAT="%17s %s \n"
@@ -34,26 +41,26 @@ CONTAINER_IMAGE=djesionek/arch-texlive
 default: docker
 	@$(PRINTF) "[docker]" "Starting container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_default -v $(shell pwd):/build $(CONTAINER_IMAGE)
+	@docker run -it --name $(NAME) -e TARGET=_default -v "$(DATA_PATH):/build" $(CONTAINER_IMAGE)
 
 grimey: docker
 	@$(PRINTF) "[docker]" "Starting container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_grimey -v $(shell pwd):/build $(CONTAINER_IMAGE)
+	@docker run -it --name $(NAME) -e TARGET=_grimey -v "$(DATA_PATH):/build" $(CONTAINER_IMAGE)
 
 verbose: docker
 	@$(PRINTF) "[docker]" "Starting container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_verbose -v $(shell pwd):/build $(CONTAINER_IMAGE)
+	@docker run -it --name $(NAME) -e TARGET=_verbose -v "$(DATA_PATH):/build" $(CONTAINER_IMAGE)
 
 init: docker
 	@$(PRINTF) "[docker]" "Creating container"
-	@docker run -it --name $(NAME) -e TARGET=_default -v $(shell pwd):/build $(CONTAINER_IMAGE)
+	@docker run -it --name $(NAME) -e TARGET=_default -v "$(DATA_PATH):/build" $(CONTAINER_IMAGE)
 
 enter: docker
 	@$(PRINTF) "[docker]" "Entering container"
 	@docker rm $(NAME) > /dev/null
-	@docker run -it --name $(NAME) -e TARGET=_enter -v $(shell pwd):/build $(CONTAINER_IMAGE)
+	@docker run -it --name $(NAME) -e TARGET=_enter -v "$(DATA_PATH):/build" $(CONTAINER_IMAGE)
 
 _enter:
 	@bash
