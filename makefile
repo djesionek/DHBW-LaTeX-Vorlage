@@ -1,9 +1,10 @@
 # Name
 NAME=fs$(shell pwd | tr / _)
 
-# For docker runninge inside a WSL (Windows Subsystem for Linux) use the Windows Path eg:
+# For docker runninge inside a WSL version 1 (Windows Subsystem for Linux) use the Windows Path eg:
 # Also you have to use double Backslash, otherwise you would simply escape char after the backslash
 #DATA_PATH = "D:\\projects\\DHBW-LaTeX-Vorlage"
+# if you use the WSL in version 2, this is not needed
 # For docker on Linux simply use $(shell pwd)
 DATA_PATH = $(shell pwd)
 
